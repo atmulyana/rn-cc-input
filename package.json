@@ -1,0 +1,34 @@
+{
+  "name": "rn-cc-input",
+  "version": "0.0.1",
+  "description": "React Native component to input a Credit Card data",
+  "author": "AT Mulyana <atmulyana@yahoo.com>",
+  "license": "MIT",
+  "repository": "https://github.com/atmulyana/rn-cc-input",
+  "keywords": [
+    "react-native",
+    "credit-card",
+    "credit",
+    "card",
+    "input"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "flow": "flow"
+  },
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "dependencies": {
+    "card-validator": ">=8",
+    "reactjs-common": "*",
+    "rn-style-props": "*"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-native": "*"
+  },
+  "devDependencies": {
+    "flow-bin": "latest"
+  }
+}
