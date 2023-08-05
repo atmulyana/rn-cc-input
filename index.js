@@ -165,12 +165,13 @@ function createField<V: Verification>(
     function forwardRef(
         {
             maxLength,
+            nextIfValid = false,
             nextInput = noop,
             onChangeText = noop,
             prevInput = noop,
             ...props
         }: FieldProps<V>,
-        $ref: Ref<FieldInputInstance<V>>
+        ref: Ref<FieldInputInstance<V>>
     ) {
         const [text, setText] = React.useState(emptyString);
         
@@ -186,7 +187,7 @@ function createField<V: Verification>(
         });
         $.value = text; //updates in every render
         
-        const {current: ref} = React.useRef<FieldInstance<V>>({
+        const {current: $ref} = React.useRef<FieldInstance<V>>({
             get isValid() {
                 return $.validity?.isValid ?? false;
             },
@@ -220,22 +221,22 @@ function createField<V: Verification>(
             $.prevTextLength = $.value.length;
             setText(sText);
             onChangeText($.validity);
-        });
+        }, [onChangeText]);
 
         const $onKeyPress = React.useCallback<$NonMaybeType<TextInputProps['onKeyPress']>>(({ nativeEvent: { key} }) => {
             if ($.value == emptyString && key == 'Backspace') prevInput()?.focus();
-        });
+        }, [prevInput]);
 
         const $onSelectionChange = React.useCallback<$NonMaybeType<TextInputProps['onSelectionChange']>>(({ nativeEvent: { selection: { start:pos } } }) => {
             let endPos = maxLength,
                 endPos2 = $.value.length;
             if ($.prevTextLength < endPos2 && pos == endPos && endPos == endPos2) nextInput()?.focus();
-            //else if (ref.isValid && $.prevTextLength < endPos2 && pos == endPos2) nextInput()?.focus();
-        }, [maxLength]);
+            else if (nextIfValid && $ref.isValid && $.prevTextLength < endPos2 && pos == endPos2) nextInput()?.focus();
+        }, [maxLength, nextInput, nextIfValid]);
 
         const $refCallback = React.useCallback(
-            extRefCallback($ref, ref),
-            [$ref]
+            extRefCallback(ref, $ref),
+            [ref]
         );
 
         return <TextInput
@@ -282,6 +283,7 @@ const CardZIP = createField(validator.postalCode);
 
 const CCInput = React.memo(({
     cardHolderText = "Card holder name",
+    ifValidNumberNext = false,
     numberText = "Card number",
     placeholderTextColor,
     placeholderTextColorError,
@@ -360,6 +362,15 @@ const CCInput = React.memo(({
         holderPrev: () => $cvc.current,
         zipPrev: () => $cardHolder.current ?? $cvc.current,
     });
+
+    const $handleFocus = React.useCallback(() => {
+        setValidationError(false);
+        typeof(validator) == 'function' && validator()?.clearValidation();
+    }, [validator]);
+
+    const $handleChangeText = React.useCallback(() => {
+        if (isValidationError) $handleFocus();
+    }, [isValidationError, $handleFocus]);
     
     const $handleChangeCardNumber = React.useCallback<?CardNumberVerification => void>(validity => {
         let newCard = validity?.card ?? unknownCard;
@@ -368,16 +379,7 @@ const CCInput = React.memo(({
             setCard(newCard);
         }
         $handleChangeText();
-    });
-
-    const $handleChangeText = React.useCallback(() => {
-        if (isValidationError) $handleFocus();
-    });
-
-    const $handleFocus = React.useCallback(() => {
-        setValidationError(false);
-        typeof(validator) == 'function' && validator()?.clearValidation();
-    });
+    }, [card, $handleChangeText]);
 
     const scroll = React.useCallback((dir: -1 | 1) => {
         //Blur all inputs because if an input having focus will disappear because of scrolling then it will resist the scrolling
@@ -398,21 +400,21 @@ const CCInput = React.memo(({
             if ($scroll.width + $scroll.pos >= $scroll.contentWidth) scrollStat |= 2;
             setScrollStat(scrollStat);
         }
-    });
+    }, []);
 
     const $crollOnLayout = React.useCallback<$NonMaybeType<ScrollViewProps['onLayout']>>( ({nativeEvent: {layout: {width}}}) => {
         $scroll.step = Math.round(width / 2);
         set$Scroll(width, -1);
-    });
+    }, []);
 
     const $onContentSizeChange = React.useCallback<$NonMaybeType<ScrollViewProps['onContentSizeChange']>>(contentWidth => {
         set$Scroll(-1, contentWidth);
-    });
+    }, []);
 
     const $onScroll  = React.useCallback<$NonMaybeType<ScrollViewProps['onScroll']>>( ({nativeEvent: {layoutMeasurement, contentOffset, contentSize}}) => {
         $scroll.pos = contentOffset.x;
         set$Scroll(layoutMeasurement.width, contentSize.width);
-    });
+    }, []);
 
     const $tyle = extractTextStyle(style, true),
           $tyleError = extractTextStyle(styleError, true),
@@ -496,6 +498,7 @@ const CCInput = React.memo(({
         >
             <CardNumber
                 maxLength={Math.max(...card.lengths) + card.gaps.length}
+                nextIfValid={ifValidNumberNext}
                 nextInput={$relInput.numberNext}
                 onFocus={$handleFocus}
                 onChangeText={$handleChangeCardNumber}

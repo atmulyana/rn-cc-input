@@ -22,6 +22,7 @@ export type CCInstance = {
 
 export type CCProps = {
     cardHolderText?: string,
+    ifValidNumberNext?: boolean,
     numberText?: string,
     placeholderTextColor?: ColorValue,
     placeholderTextColorError?: ColorValue,

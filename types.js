@@ -43,6 +43,7 @@ export type FieldInputInstance<V> = { ...TextInputInstance, ...FieldInstance<V>}
 
 export type FieldProps<V: Verification> = {
     ...TextInputProps,
+    nextIfValid?: boolean,
     nextInput?: () => ?{...TextInputInstance, ...},
     onChangeText: ?V => void,
     prevInput?: () => ?{...TextInputInstance, ...},
@@ -68,6 +69,7 @@ export type CCInstance = {
 
 export type CCProps = {
     cardHolderText?: string,
+    ifValidNumberNext?: boolean,
     numberText?: string,
     placeholderTextColor?: ColorValue,
     placeholderTextColorError?: ColorValue,

@@ -1,6 +1,6 @@
 {
   "name": "rn-cc-input",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "React Native component to input a Credit Card data",
   "author": "AT Mulyana <atmulyana@yahoo.com>",
   "license": "MIT",
@@ -13,6 +13,11 @@
     "input"
   ],
   "main": "index.js",
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "types.js"
+  ],
   "scripts": {
     "flow": "flow"
   },

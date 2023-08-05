@@ -17,11 +17,18 @@ The display:
 ![display example](./images/display-example.gif) 
 
 ### **Props**
-There are some props dealing with style. You must use it carefully to prevent the messed layout.
+All props are optional. There are some props dealing with style. You must use them carefully to prevent the messed layout.
 
 |Name                       |Type            |Description                                              |Default Value      |
 |---------------------------|-----------------|--------------------------------------------------------|-------------------|
 |`cardHolderText`           |`string`         |The text that will be displayed on the card holder field|"Card holder name" | 
+|`ifValidNumberNext`        |`boolean`        |When you type a value for a field and it reaches the max|`false`            |
+|                           |                 |length for that field, the focus will move to the next  ||
+|                           |                 |field. But sometimes for card number, before it reaches ||
+|                           |                 |the max length, the number has been considered as a     ||
+|                           |                 |valid value. If this prop is `true`, when the number is ||
+|                           |                 |already valid, the focus will move to the next field    ||
+|                           |                 |(CVC field) even if it doesn't reach the max length yet.||
 |`numberText`               |`string`         |The text that will be displayed on the card number field|"Card number"      |
 |`placeholderTextColor`     |`ColorValue`     |The color of placeholder text on all fields             ||
 |`placeholderTextColorError`|`ColorValue`     |The color of placeholder text on all fields when the    ||
@@ -99,7 +106,7 @@ export default () => (
                     //The transaction is succesfull. It may be redirected to another page
                 }
                 else {
-                    //Not successfull. If it's because credit card data is invalid (not enough fund, wrong holder name, etc.)
+                    //Not successfull. If it's because credit card data is invalid (exceeds the limit, wrong holder name, etc.)
                     //We can show the validity status
                     ccInput.setValidationError(true);
                 }
