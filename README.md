@@ -22,40 +22,19 @@ All props are optional. There are some props dealing with style. You must use th
 |Name                       |Type            |Description                                              |Default Value      |
 |---------------------------|-----------------|--------------------------------------------------------|-------------------|
 |`cardHolderText`           |`string`         |The text that will be displayed on the card holder field|"Card holder name" | 
-|`ifValidNumberNext`        |`boolean`        |When you type a value for a field and it reaches the max|`false`            |
-|                           |                 |length for that field, the focus will move to the next  ||
-|                           |                 |field. But sometimes for card number, before it reaches ||
-|                           |                 |the max length, the number has been considered as a     ||
-|                           |                 |valid value. If this prop is `true`, when the number is ||
-|                           |                 |already valid, the focus will move to the next field    ||
-|                           |                 |(CVC field) even if it doesn't reach the max length yet.||
+|`ifValidNumberNext`        |`boolean`        |When you type a value for a field and it reaches the max length for that field, the focus will move to the next field. But sometimes for card number, before it reaches the max length, the number has been considered as a valid value. If this prop is `true`, when the number is already valid, the focus will move to the next field (CVC field) even if it doesn't reach the max length yet.|`false`|
 |`numberText`               |`string`         |The text that will be displayed on the card number field|"Card number"      |
-|`placeholderTextColor`     |`ColorValue`     |The color of placeholder text on all fields             ||
-|`placeholderTextColorError`|`ColorValue`     |The color of placeholder text on all fields when the    ||
-|                           |                 |input is invalid                                              ||
+|`placeholderTextColor`     |`ColorValue`     |The color of placeholder text on all fields             |                   |
+|`placeholderTextColorError`|`ColorValue`     |The color of placeholder text on all fields when the input is invalid|      |
 |`postalCodeText`           |`string`         |The text that will be displayed on the postal code field|"Postal code"      |
-|`showCardHolder`           |`boolean`        |Whether to show the card holder field or not            |`false`            |
-|                           |                 |(`true` is to show it)                                  ||
-|`showPostalCode`           |`boolean`        |Whether to show the postal code field or not            |`false`            |
-|                           |                 |(`true` is to show it)                                  ||
-|`style`                    |`TextInput` style|The style for input. All style properties that are      ||
-|                           |                 |applicable to `View` component will be set to the       ||
-|                           |                 |input's top container and the rest to all field inputs  ||
-|                           |                 |(card number, expiry date, CVV, holder name and postal  ||
-|                           |                 |code)                                                   ||
-|`styleArrow`               |`View` style     |The style for the scrolling button. If the credit card  ||
-|                           |                 |input can't display all fields, there will be the       ||
-|                           |                 |scrolling button(s) to slide to the right and to the    ||
-|                           |                 |left                                                    ||
-|`styleArrowError`          |`View` style     |The style for the scrolling button when the input is    ||
-|                           |                 |invalid                                                 ||
-|`styleError`               |`TextInput` style|The style for input. All style properties that are      ||
-|                           |                 |applicable to `View` component will be set to the       ||
-|                           |                 |input's top container and the rest to all field inputs  ||
-|`styleField`               |`TextInput` style|The style for all field inputs. It overrides `style`    ||
-|                           |                 |props                                                   ||
-|`styleFieldError`          |`TextInput` style|The style for all field inputs when invalid. It         ||
-|                           |                 |overrides `styleError` prop                             ||
+|`showCardHolder`           |`boolean`        |Whether to show the card holder field or not (`true` is to show it)|`false` |
+|`showPostalCode`           |`boolean`        |Whether to show the postal code field or not (`true` is to show it)|`false` |
+|`style`                    |`TextInput` style|The style for input. All style properties that are applicable to `View` component will be set to the input's top container and the rest to all field inputs (card number, expiry date, CVV, holder name and postal code)                                                                                                  ||
+|`styleArrow`               |`View` style     |The style for the scrolling button. If the credit card input can't display all fields, there will be the scrolling button(s) to slide to the right and to the left                                              ||
+|`styleArrowError`          |`View` style     |The style for the scrolling button when the input is invalid||
+|`styleError`               |`TextInput` style|The style for input. All style properties that are applicable to `View` component will be set to the input's top container and the rest to all field inputs                                                         ||
+|`styleField`               |`TextInput` style|The style for all field inputs. It overrides `style` props||
+|`styleFieldError`          |`TextInput` style|The style for all field inputs when invalid. It overrides `styleError` prop||
 |`styleIcon`                |`Image` style    |The style for the card image                            ||
 
 ### Properties and method of `ref` object
